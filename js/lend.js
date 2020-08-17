@@ -68,9 +68,7 @@ async function main() {
     _print(`You are staking   : ${stakedYAmount} ${stakingTokenTicker} (${toFixed(stakedYAmount * 100 / totalStakedYAmount, 3)}% of the pool)`);
     _print(`                  = ${toDollar(stakedYAmount * stakingTokenPrice)}\n`);
 
-    // YFII REWARDS
     _print(`======== ${rewardTokenTicker} REWARDS ========`)
-    // _print(" (Temporarily paused until further emission model is voted by the community) ");
     _print(`Claimable Rewards : ${toFixed(earnedYFFI, 4)} ${rewardTokenTicker} = $${toFixed(earnedYFFI * rewardTokenPrice, 2)}`);
     const YFFIWeeklyEstimate = rewardPerToken * stakedYAmount;
 
@@ -85,10 +83,20 @@ async function main() {
     _print(`Weekly ROI in USD : ${toFixed(YFIWeeklyROI, 4)}%`)
     _print(`APY (unstable)    : ${toFixed(YFIWeeklyROI * 52, 4)}% \n`)
     */
+   _print("========== STAKING =========")
+   _print(`There are total   : ${totalSupplyY} ${stakingTokenTicker}.`);
+   _print(`There are total   : ${totalStakedYAmount} ${stakingTokenTicker} staked in ${rewardTokenTicker}'s ${stakingTokenTicker} staking pool.`);
+   _print(`You are staking   : ${stakedYAmount} ${stakingTokenTicker} (${toFixed(stakedYAmount * 100 / totalStakedYAmount, 3)}% of the pool)`);
+   _print(`\n======== ${rewardTokenTicker} REWARDS ========`)
+   _print(`Claimable Rewards : ${toFixed(earnedYFFI, 4)} ${rewardTokenTicker}`);
+   const YFFIWeeklyEstimate = rewardPerToken * stakedYAmount;
+   _print(`Hourly estimate   : ${toFixed(YFFIWeeklyEstimate / (24 * 7), 4)} ${rewardTokenTicker}`)
+   _print(`Daily estimate    : ${toFixed(YFFIWeeklyEstimate / 7, 2)} ${rewardTokenTicker}`)
+   _print(`Weekly estimate   : ${toFixed(YFFIWeeklyEstimate, 2)} ${rewardTokenTicker}`)
 
     const timeTilHalving = nextHalving - (Date.now() / 1000);
 
-    _print(`Reward ending      : in ${forHumans(timeTilHalving)} \n`);
+    _print(`Reward ending     : in ${forHumans(timeTilHalving)} \n`);
 
     const approveTENDAndStake = async function () {
         return rewardsContract_stake(stakingTokenAddr, rewardPoolAddr, App);
