@@ -49,7 +49,11 @@ async function main() {
 
     const timeTilHalving = nextHalving - (Date.now() / 1000);
 
-    _print(`Reward ending     : in ${forHumans(timeTilHalving)} \n`);
+    if (timeTilHalving > 1814400) {
+        _print(`Reward starting   : in ${forHumans(timeTilHalving - 1814400)} \n`);
+    } else {
+        _print(`Reward ending     : in ${forHumans(timeTilHalving)} \n`);
+    }
 
     const resetApprove = async function() {
        return rewardsContract_resetApprove(stakingTokenAddr, rewardPoolAddr, App);

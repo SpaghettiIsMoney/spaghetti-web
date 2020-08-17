@@ -22,10 +22,10 @@ async function main() {
     const P_STAKING_POOL = new ethers.Contract(rewardPoolAddr, P_STAKING_POOL_ABI, App.provider);
     const Y_TOKEN = new ethers.Contract(stakingTokenAddr, ERC20_ABI, App.provider);
 
-    const stakedYAmount = await P_STAKING_POOL.balanceOf(App.YOUR_ADDRESS) / 1e18;
+    const stakedYAmount = await P_STAKING_POOL.balanceOf(App.YOUR_ADDRESS) / 1e8;
     const earnedYFFI = await P_STAKING_POOL.earned(App.YOUR_ADDRESS) / 1e18;
-    const totalSupplyY = await Y_TOKEN.totalSupply() / 1e18;
-    const totalStakedYAmount = await Y_TOKEN.balanceOf(rewardPoolAddr) / 1e18;
+    const totalSupplyY = await Y_TOKEN.totalSupply() / 1e8;
+    const totalStakedYAmount = await Y_TOKEN.balanceOf(rewardPoolAddr) / 1e8;
 
     // Find out reward rate
     const weekly_reward = await get_synth_weekly_rewards(P_STAKING_POOL) / 1e18;
@@ -34,7 +34,7 @@ async function main() {
     const rewardPerToken = weekly_reward / totalStakedYAmount;
 
     // Find out underlying assets of Y
-    const unstakedY = await Y_TOKEN.balanceOf(App.YOUR_ADDRESS) / 1e18;
+    const unstakedY = await Y_TOKEN.balanceOf(App.YOUR_ADDRESS) / 1e8;
 
    _print("========== STAKING =========")
    _print(`There are total   : ${totalSupplyY} ${stakingTokenTicker}.`);
@@ -49,7 +49,11 @@ async function main() {
 
     const timeTilHalving = nextHalving - (Date.now() / 1000);
 
-    _print(`Reward ending     : in ${forHumans(timeTilHalving)} \n`);
+    if (timeTilHalving > 604800) {
+        _print(`Reward starting   : in ${forHumans(timeTilHalving - 604800)} \n`);
+    } else {
+        _print(`Reward ending     : in ${forHumans(timeTilHalving)} \n`);
+    }
 
     const approveTENDAndStake = async function () {
         return rewardsContract_stake(stakingTokenAddr, rewardPoolAddr, App);
