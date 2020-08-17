@@ -6,9 +6,9 @@ $(function() {
 async function main() {
     print_warning();
 
-    const stakingToken = SNX_TOKEN_ADDRESS;
+    const stakingToken = SNX_TOKEN_ADDR;
     const stakingTokenTicker = "SNX";
-    const rewardPoolAddr = "0x6c3FC1FFDb14D92394f40eeC91D9Ce8B807f132D";
+    const rewardPoolAddr = SNX_REWARD_ADDR;
     const rewardTokenAddr = PASTA_TOKEN_ADDR;
     const rewardTokenTicker = "PASTA";
 
@@ -27,57 +27,17 @@ async function main() {
     const totalSupplyY = await Y_TOKEN.totalSupply() / 1e18;
     const totalStakedYAmount = await Y_TOKEN.balanceOf(rewardPoolAddr) / 1e18;
 
-
     // Find out reward rate
     const weekly_reward = await get_synth_weekly_rewards(P_STAKING_POOL) / 1e18;
     const nextHalving = await getPeriodFinishForReward(P_STAKING_POOL);
 
-    // const weekly_reward = 0;
-
     const rewardPerToken = weekly_reward / totalStakedYAmount;
 
     // Find out underlying assets of Y
-    // const YVirtualPrice = await CURVE_Y_POOL.get_virtual_price() / 1e18;
     const unstakedY = await Y_TOKEN.balanceOf(App.YOUR_ADDRESS) / 1e18;
 
     _print("Finished reading smart contracts... Looking up prices... \n")
 
-    /*
-    const prices = await lookUpPrices(["havven", "ethereum", "pasta"]);
-    const stakingTokenPrice = prices["havven"].usd;
-
-    const rewardTokenPrice = prices["pasta"].usd;
-
-    // Finished. Start printing
-
-    _print("========== PRICES ==========")
-    _print(`1 ${rewardTokenTicker}   = $${rewardTokenPrice}`);
-    _print(`1 ${stakingTokenTicker}  = $${stakingTokenPrice}\n`);
-
-    _print("========== STAKING =========")
-    _print(`There are total   : ${totalSupplyY} ${stakingTokenTicker}.`);
-    _print(`There are total   : ${totalStakedYAmount} ${stakingTokenTicker} staked in ${rewardTokenTicker}'s ${stakingTokenTicker} staking pool.`);
-    _print(`                  = ${toDollar(totalStakedYAmount * stakingTokenPrice)}\n`);
-    _print(`You are staking   : ${stakedYAmount} ${stakingTokenTicker} (${toFixed(stakedYAmount * 100 / totalStakedYAmount, 3)}% of the pool)`);
-    _print(`                  = ${toDollar(stakedYAmount * stakingTokenPrice)}\n`);
-
-    // YFII REWARDS
-    _print(`======== ${rewardTokenTicker} REWARDS ========`)
-    // _print(" (Temporarily paused until further emission model is voted by the community) ");
-    _print(`Claimable Rewards : ${toFixed(earnedYFFI, 4)} ${rewardTokenTicker} = $${toFixed(earnedYFFI * rewardTokenPrice, 2)}`);
-    const YFFIWeeklyEstimate = rewardPerToken * stakedYAmount;
-
-
-    _print(`Hourly estimate   : ${toFixed(YFFIWeeklyEstimate / (24 * 7), 4)} ${rewardTokenTicker} = ${toDollar((YFFIWeeklyEstimate / (24 * 7)) * rewardTokenPrice)} (out of total ${toFixed(weekly_reward / (7 * 24), 2)} ${rewardTokenTicker})`)
-    _print(`Daily estimate    : ${toFixed(YFFIWeeklyEstimate / 7, 2)} ${rewardTokenTicker} = ${toDollar((YFFIWeeklyEstimate / 7) * rewardTokenPrice)} (out of total ${toFixed(weekly_reward / 7, 2)} ${rewardTokenTicker})`)
-    _print(`Weekly estimate   : ${toFixed(YFFIWeeklyEstimate, 2)} ${rewardTokenTicker} = ${toDollar(YFFIWeeklyEstimate * rewardTokenPrice)} (out of total ${weekly_reward} ${rewardTokenTicker})`)
-    const YFIWeeklyROI = (rewardPerToken * rewardTokenPrice) * 100 / (stakingTokenPrice);
-
-    _print(`\nHourly ROI in USD : ${toFixed((YFIWeeklyROI / 7) / 24, 4)}%`)
-    _print(`Daily ROI in USD  : ${toFixed(YFIWeeklyROI / 7, 4)}%`)
-    _print(`Weekly ROI in USD : ${toFixed(YFIWeeklyROI, 4)}%`)
-    _print(`APY (unstable)    : ${toFixed(YFIWeeklyROI * 52, 4)}% \n`)
-    */
    _print("========== STAKING =========")
    _print(`There are total   : ${totalSupplyY} ${stakingTokenTicker}.`);
    _print(`There are total   : ${totalStakedYAmount} ${stakingTokenTicker} staked in ${rewardTokenTicker}'s ${stakingTokenTicker} staking pool.`);
