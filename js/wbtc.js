@@ -56,7 +56,7 @@ async function main() {
     }
 
     const approveTENDAndStake = async function () {
-        return rewardsContract_stake(stakingTokenAddr, rewardPoolAddr, App);
+        return rewardsContract_stakeWBTC(stakingTokenAddr, rewardPoolAddr, App);
     };
 
     const unstake = async function() {
@@ -68,7 +68,7 @@ async function main() {
     };
 
     const exit = async function() {
-        return rewardsContract_exit(rewardPoolAddr, App);
+        return rewardsContract_exitWBTC(rewardPoolAddr, App);
     };
 
     _print_link(`Stake ${unstakedY} ${stakingTokenTicker}`, approveTENDAndStake);
