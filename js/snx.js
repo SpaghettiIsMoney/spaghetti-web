@@ -38,11 +38,11 @@ async function main() {
 
     _print("Finished reading smart contracts... Looking up prices... \n")
 
-   _print("========== STAKING =========")
+   _print("============== STAKING ==============")
    _print(`There are total   : ${totalSupplyY} ${stakingTokenTicker}.`);
    _print(`There are total   : ${totalStakedYAmount} ${stakingTokenTicker} staked in ${rewardTokenTicker}'s ${stakingTokenTicker} staking pool.`);
    _print(`You are staking   : ${stakedYAmount} ${stakingTokenTicker} (${toFixed(stakedYAmount * 100 / totalStakedYAmount, 3)}% of the pool)`);
-   _print(`\n======== ${rewardTokenTicker} REWARDS ========`)
+   _print(`\n======== 🍝 ${rewardTokenTicker} REWARDS 🍝 ========`)
    _print(`Claimable Rewards : ${toFixed(earnedYFFI, 4)} ${rewardTokenTicker}`);
    const YFFIWeeklyEstimate = rewardPerToken * stakedYAmount;
    _print(`Hourly estimate   : ${toFixed(YFFIWeeklyEstimate / (24 * 7), 4)} ${rewardTokenTicker}`)
