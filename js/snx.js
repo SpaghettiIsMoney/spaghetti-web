@@ -58,7 +58,7 @@ async function main() {
     }
 
     const approveTENDAndStake = async function () {
-        return rewardsContract_stake(stakingTokenAddr, rewardPoolAddr, App);
+        return rewardsContract_stake(stakingToken, rewardPoolAddr, App);
     };
 
     const unstake = async function() {
