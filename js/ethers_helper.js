@@ -408,7 +408,7 @@ const rewardsContract_stakeWBTC = async function(stakingTokenAddr, rewardPoolAdd
 const rewardsContract_unstake = async function(rewardPoolAddr, App) {
     const signer = App.provider.getSigner();
 
-    const REWARD_POOL = new ethers.Contract(rewardPoolAddr, Y_STAKING_POOL_ABI, signer);
+    const REWARD_POOL = new ethers.Contract(rewardPoolAddr, P_STAKING_POOL_ABI, signer);
     const currentStakedAmount = await REWARD_POOL.balanceOf(App.YOUR_ADDRESS);
     const earnedYFFI = (await REWARD_POOL.earned(App.YOUR_ADDRESS)) / 1e18;
 
@@ -426,7 +426,7 @@ const rewardsContract_unstake = async function(rewardPoolAddr, App) {
 const rewardsContract_exit = async function(rewardPoolAddr, App) {
     const signer = App.provider.getSigner();
 
-    const REWARD_POOL = new ethers.Contract(rewardPoolAddr, Y_STAKING_POOL_ABI, signer);
+    const REWARD_POOL = new ethers.Contract(rewardPoolAddr, P_STAKING_POOL_ABI, signer);
     const currentStakedAmount = (await REWARD_POOL.balanceOf(App.YOUR_ADDRESS)) / 1e18;
 
     if (currentStakedAmount > 0) {
@@ -443,7 +443,7 @@ const rewardsContract_exit = async function(rewardPoolAddr, App) {
 const rewardsContract_exitWBTC = async function(rewardPoolAddr, App) {
     const signer = App.provider.getSigner();
 
-    const REWARD_POOL = new ethers.Contract(rewardPoolAddr, Y_STAKING_POOL_ABI, signer);
+    const REWARD_POOL = new ethers.Contract(rewardPoolAddr, P_STAKING_POOL_ABI, signer);
     const currentStakedAmount = (await REWARD_POOL.balanceOf(App.YOUR_ADDRESS)) / 1e7;
 
     if (currentStakedAmount > 0) {
@@ -460,7 +460,7 @@ const rewardsContract_exitWBTC = async function(rewardPoolAddr, App) {
 const rewardsContract_claim = async function(rewardPoolAddr, App) {
     const signer = App.provider.getSigner();
 
-    const WEEBTEND_V2_TOKEN = new ethers.Contract(rewardPoolAddr, Y_STAKING_POOL_ABI, signer);
+    const WEEBTEND_V2_TOKEN = new ethers.Contract(rewardPoolAddr, P_STAKING_POOL_ABI, signer);
 
     console.log(App.YOUR_ADDRESS);
 

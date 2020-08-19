@@ -60,7 +60,7 @@ async function main() {
     };
 
     const approveTENDAndStake = async function () {
-        return rewardsContract_stake(stakingTokenAddr, rewardPoolAddr, App);
+        return wi(stakingTokenAddr, rewardPoolAddr, App);
     };
 
     const unstake = async function() {
