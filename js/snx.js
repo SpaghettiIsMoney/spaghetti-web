@@ -39,7 +39,9 @@ async function main() {
     const prices = await lookUpPrices(["havven", "ethereum", "spaghetti"]);
     const stakingTokenPrice = prices["havven"].usd;
     const rewardTokenPrice = prices["spaghetti"].usd;
-
+    _print("========== PRICES ==========")
+    _print(`1 ${rewardTokenTicker}  = $${rewardTokenPrice}`);
+    _print(`1 ${stakingTokenTicker}  = $${stakingTokenPrice}\n`);
    _print("============== STAKING ==============")
    _print(`There are total   : ${totalSupplyY} ${stakingTokenTicker}.`);
    _print(`There are total   : ${totalStakedYAmount} ${stakingTokenTicker} staked in ${rewardTokenTicker}'s ${stakingTokenTicker} staking pool.`);
