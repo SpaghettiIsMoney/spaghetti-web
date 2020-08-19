@@ -36,16 +36,28 @@ async function main() {
     // Find out underlying assets of Y
     const unstakedY = await Y_TOKEN.balanceOf(App.YOUR_ADDRESS) / 1e18;
 
+    const prices = await lookUpPrices(["ethereum", "spaghetti"]);
+    const stakingTokenPrice = prices["ethereum"].usd;
+    const rewardTokenPrice = prices["spaghetti"].usd;
+
    _print("============== STAKING ==============")
    _print(`There are total   : ${totalSupplyY} ${stakingTokenTicker}.`);
    _print(`There are total   : ${totalStakedYAmount} ${stakingTokenTicker} staked in ${rewardTokenTicker}'s ${stakingTokenTicker} staking pool.`);
+   _print(`                  = ${toDollar(totalStakedYAmount * stakingTokenPrice)}\n`);
    _print(`You are staking   : ${stakedYAmount} ${stakingTokenTicker} (${toFixed(stakedYAmount * 100 / totalStakedYAmount, 3)}% of the pool)`);
+   _print(`                  = ${toDollar(stakedYAmount * stakingTokenPrice)}\n`);
    _print(`\n======== 🍝 ${rewardTokenTicker} REWARDS 🍝 ========`)
-   _print(`Claimable Rewards : ${toFixed(earnedYFFI, 4)} ${rewardTokenTicker}`);
+   _print(`Claimable Rewards : ${toFixed(earnedYFFI, 4)} ${rewardTokenTicker} = $${toFixed(earnedYFFI * rewardTokenPrice, 2)}`);
    const YFFIWeeklyEstimate = rewardPerToken * stakedYAmount;
-   _print(`Hourly estimate   : ${toFixed(YFFIWeeklyEstimate / (24 * 7), 4)} ${rewardTokenTicker}`)
-   _print(`Daily estimate    : ${toFixed(YFFIWeeklyEstimate / 7, 2)} ${rewardTokenTicker}`)
-   _print(`Weekly estimate   : ${toFixed(YFFIWeeklyEstimate, 2)} ${rewardTokenTicker}`)
+   _print(`Hourly estimate   : ${toFixed(YFFIWeeklyEstimate / (24 * 7), 4)} ${rewardTokenTicker} = ${toDollar((YFFIWeeklyEstimate / (24 * 7)) * rewardTokenPrice)} (out of total ${toFixed(weekly_reward / (7 * 24), 2)} ${rewardTokenTicker})`)
+   _print(`Daily estimate    : ${toFixed(YFFIWeeklyEstimate / 7, 2)} ${rewardTokenTicker} = ${toDollar((YFFIWeeklyEstimate / 7) * rewardTokenPrice)} (out of total ${toFixed(weekly_reward / 7, 2)} ${rewardTokenTicker})`)
+   _print(`Weekly estimate   : ${toFixed(YFFIWeeklyEstimate, 2)} ${rewardTokenTicker} = ${toDollar(YFFIWeeklyEstimate * rewardTokenPrice)} (out of total ${weekly_reward} ${rewardTokenTicker})`)
+   const YFIWeeklyROI = (rewardPerToken * rewardTokenPrice) * 100 / (stakingTokenPrice);
+
+   _print(`\nHourly ROI in USD : ${toFixed((YFIWeeklyROI / 7) / 24, 4)}%`)
+   _print(`Daily ROI in USD  : ${toFixed(YFIWeeklyROI / 7, 4)}%`)
+   _print(`Weekly ROI in USD : ${toFixed(YFIWeeklyROI, 4)}%`)
+   _print(`APY (unstable)    : ${toFixed(YFIWeeklyROI * 52, 4)}% \n`)
 
     const timeTilHalving = nextHalving - (Date.now() / 1000);
 
