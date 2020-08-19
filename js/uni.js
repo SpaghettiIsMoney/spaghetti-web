@@ -46,6 +46,8 @@ async function main() {
     const stakingTokenPrice = (totalYAMInUniswapPair * prices["spaghetti"].usd + totalYCRVInUniswapPair * YVirtualPrice) / totalSupplyOfStakingToken;
     const rewardTokenPrice = prices["spaghetti"].usd;
 
+    _print(`To get yyCRV deposit a stablecoin into curve to get yCRV or buy it on uniswap -> deposit yCRV into yearn.finance yVault\n`);
+
     _print("========== PRICES ==========")
     _print(`1 ${rewardTokenTicker}    = $${rewardTokenPrice}`);
     _print(`1 yyCRV    = $${YVirtualPrice}`);
@@ -83,7 +85,7 @@ async function main() {
     };
 
     const approveTENDAndStake = async function () {
-        return wi(stakingTokenAddr, rewardPoolAddr, App);
+        return rewardsContract_stake(stakingTokenAddr, rewardPoolAddr, App);
     };
 
     const unstake = async function() {
