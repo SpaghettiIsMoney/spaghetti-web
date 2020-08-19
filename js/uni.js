@@ -23,6 +23,10 @@ async function main() {
     const CURVE_Y_POOL = new ethers.Contract(CURVE_Y_POOL_ADDR, CURVE_Y_POOL_ABI, App.provider);
     const PASTA_TOKEN = new ethers.Contract(PASTA_TOKEN_ADDR, ERC20_ABI, App.provider);
     const YYCRV_TOKEN = new ethers.Contract(YYCRV_TOKEN_ADDR, ERC20_ABI, App.provider);
+    const YEARN_VAULT_CONTROLLER = new ethers.Contract(YEARN_VAULT_CONTROLLER_ADDR, YEARN_VAULT_CONTROLLER_ABI, App.provider);
+    const vaultAddress = await YEARN_VAULT_CONTROLLER.vaults(YCRV_TOKEN_ADDR);
+    const vaultContract = new ethers.Contract(vaultAddress, YEARN_VAULT_ABI, App.provider);
+    const currentPricePerFullShare = await vaultContract.getPricePerFullShare();
 
     const stakedYAmount = await REWARD_POOL.balanceOf(App.YOUR_ADDRESS) / 1e18;
     const earnedYFFI = await REWARD_POOL.earned(App.YOUR_ADDRESS) / 1e18;
@@ -41,16 +45,17 @@ async function main() {
 
     // Find out underlying assets of Y
     const YVirtualPrice = await CURVE_Y_POOL.get_virtual_price() / 1e18;
+    const YYVirtualPrice = (YVirtualPrice * currentPricePerFullShare) / 1e18
     const unstakedY = await STAKING_TOKEN.balanceOf(App.YOUR_ADDRESS) / 1e18;
     const prices = await lookUpPrices(["ethereum", "spaghetti"]);
-    const stakingTokenPrice = (totalYAMInUniswapPair * prices["spaghetti"].usd + totalYCRVInUniswapPair * YVirtualPrice) / totalSupplyOfStakingToken;
+    const stakingTokenPrice = (totalYAMInUniswapPair * prices["spaghetti"].usd + totalYCRVInUniswapPair * YYVirtualPrice) / totalSupplyOfStakingToken;
     const rewardTokenPrice = prices["spaghetti"].usd;
 
     _print(`To get yyCRV deposit a stablecoin into curve to get yCRV or buy it on uniswap -> deposit yCRV into yearn.finance yVault\n`);
 
     _print("========== PRICES ==========")
     _print(`1 ${rewardTokenTicker}    = $${rewardTokenPrice}`);
-    _print(`1 yyCRV    = $${YVirtualPrice}`);
+    _print(`1 yyCRV    = $${YYVirtualPrice}`);
     _print(`1 ${stakingTokenTicker}    = $${stakingTokenPrice}\n`);
 
     _print("========== STAKING =========")
