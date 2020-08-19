@@ -28,7 +28,7 @@ async function main() {
     const totalStakedYAmount = await Y_TOKEN.balanceOf(rewardPoolAddr) / 1e18;
 
     // Find out reward rate
-    const weekly_reward = await get_synth_weekly_rewards(P_STAKING_POOL);
+    const weekly_reward = await get_synth_weekly_rewards(P_STAKING_POOL) / 1e18;
     const nextHalving = await getPeriodFinishForReward(P_STAKING_POOL);
 
     const rewardPerToken = weekly_reward / totalStakedYAmount;
