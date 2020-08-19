@@ -240,7 +240,7 @@ const get_synth_weekly_rewards = async function(synth_contract_instance) {
     }
 
     const rewardRate = await synth_contract_instance.rewardRate();
-    return Math.round((rewardRate / 1e18) * 604800);
+    return Math.round((rewardRate) * 604800);
 };
 
 const isRewardPeriodOver = async function(reward_contract_instance) {
