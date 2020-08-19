@@ -6,6 +6,8 @@ $(function() {
 async function main() {
     const App = await init_ethers();
 
+    const PASTA = new ethers.Contract(PASTA_TOKEN_ADDR, ERC20_ABI, App.provider);
+    const pastaTotalSupply = await PASTA.totalSupply();
     const WBTC = new ethers.Contract(WBTC_TOKEN_ADDR, ERC20_ABI, App.provider);
     const WETH = new ethers.Contract(WETH_TOKEN_ADDR, ERC20_ABI, App.provider);
     const MKR = new ethers.Contract(MKR_TOKEN_ADDR, ERC20_ABI, App.provider);
@@ -36,6 +38,8 @@ async function main() {
     _print(`SNX locked  = ${toDollar(snxStaked * prices["havven"].usd)}\n`);
     _print(`LEND locked = ${toDollar(lendStaked * prices["ethlend"].usd)}\n`);
     _print(`TOTAL       = ${toDollar(wbtcStaked * prices["wrapped-bitcoin"].usd + snxStaked * prices["havven"].usd + linkStaked * prices["chainlink"].usd + yfiStaked * prices["yearn-finance"].usd + compStaked * prices["compound-governance-token"].usd + mkrStaked * prices["maker"].usd + wethStaked * prices["ethereum"].usd + lendStaked * prices["ethlend"].usd)}\n`);
+
+    _print(`\n\nPASTA TOTAL SUPPLY = ${pastaTotalSupply}`);
 
 };
 
