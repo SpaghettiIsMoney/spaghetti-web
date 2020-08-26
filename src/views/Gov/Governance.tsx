@@ -63,7 +63,7 @@ const Vote: React.FC = () => {
 
         {!!account && (
           <>
-            <StyledVote>
+            {/* <StyledVote>
               <Vote_Piece3 />
             </StyledVote>
             <br/>
@@ -73,7 +73,7 @@ const Vote: React.FC = () => {
             <br/>
             <StyledVote>
               <Vote_Piece />
-            </StyledVote>
+            </StyledVote> */}
             <br />
             {/* <StyledVote>
             <Voter />

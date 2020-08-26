@@ -14,7 +14,6 @@ import Spacer from '../../../components/Spacer'
 import useYam from '../../../hooks/useYam'
 
 import {
-  delegate,
   didDelegate,
   getDelegatedBalance,
   getScalingFactor,

@@ -1,6 +1,7 @@
-import React, { useMemo, useEffect, useState } from 'react'
+import React, { useMemo, useEffect, useState, useCallback } from 'react'
 import styled from 'styled-components'
 import axios from "axios";
+import { useWallet } from 'use-wallet'
 
 import numeral from 'numeral'
 
@@ -10,6 +11,10 @@ import Label from '../../../components/Label'
 
 import { getDisplayBalance } from '../../../utils/formatBalance'
 import BigNumber from 'bignumber.js'
+
+import {
+  getSupply,
+} from '../../../yamUtils'
 
 interface StatsProps {
   circSupply?: string,
@@ -24,13 +29,16 @@ const Stats: React.FC<StatsProps> = ({
   totalSupply,
 }) => {
   const [currentPrice, setCurrentPrice] = useState(new Number)
+  const [supply, setSupply] = useState("")
+
+  const { account, ethereum } = useWallet()
 
   const formattedTotalSupply = useMemo(() => {
-    if (totalSupply) {
-      const supplyStr = getDisplayBalance(new BigNumber(totalSupply))
-      return numeral(supplyStr).format('0.0a')
+    if (supply) {
+      const supplyStr = getDisplayBalance(new BigNumber(supply))
+      return numeral(supplyStr).format('0.00a')
     } else return '--'
-  }, [totalSupply])
+  }, [supply])
 
   useEffect(() => {
     axios.get('https://api.coingecko.com/api/v3/simple/price?ids=Cethereum%2Cspaghetti&vs_currencies=usd').then((res) => {
@@ -39,6 +47,18 @@ const Stats: React.FC<StatsProps> = ({
       }
     })
   }, [setCurrentPrice])
+
+  const fetchTotalSupply = useCallback(async () => {
+    const d = await getSupply(ethereum)
+    console.log(d)
+    setSupply(d);
+  }, [setSupply, ethereum])
+
+  useEffect(() => {
+    if (ethereum) {
+      fetchTotalSupply()
+    }
+  }, [fetchTotalSupply, ethereum])
 
   return (
     <StyledStats>
@@ -68,7 +88,7 @@ const Stats: React.FC<StatsProps> = ({
         <CardContent>
           <StyledStat>
             <StyledValue>
-              229,240.92
+              {formattedTotalSupply}
             </StyledValue>
             <Label text="Total Supply" />
           </StyledStat>

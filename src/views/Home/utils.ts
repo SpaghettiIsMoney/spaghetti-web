@@ -39,7 +39,7 @@ export const getStats = async (yam: typeof Yam) => {
   const circSupply = '' // await getCirculatingSupply(yam)
   const nextRebase = await getNextRebaseTimestamp(yam)
   const targetPrice = await getTargetPrice(yam)
-  const totalSupply = await getTotalSupply(yam)
+  const totalSupply = ''//await getTotalSupply(yam)
   return {
     circSupply,
     curPrice,

@@ -10,7 +10,7 @@ import useYam from '../../hooks/useYam'
 
 // import Rebase from './components/Rebase'
 import Stats from './components/Stats'
-// import Vote from './components/Vote'
+import Vote from './components/Vote'
 
 import { OverviewData } from './types'
 import { getStats } from './utils'
@@ -43,11 +43,11 @@ const Home: React.FC = () => {
     <Page>
       <PageHeader icon="🍝" subtitle="Thats a spicy meatball" title="Welcome" />
       <div>
-        {/* {!!account && (
+        {!!account && (
           <StyledVote>
             <Vote />
           </StyledVote>
-        )} */}
+        )}
         <StyledSpacer />
         <StyledOverview>
           {/* <Rebase nextRebase={nextRebase} />

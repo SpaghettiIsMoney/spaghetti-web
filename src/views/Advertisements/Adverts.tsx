@@ -33,7 +33,6 @@ import AdvertCards from './components/AdvertCards'
 import Farm from '../Farm'
 
 import {
-  delegate,
   didDelegate,
   getDelegatedBalance,
   getScalingFactor,

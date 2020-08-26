@@ -6,6 +6,8 @@ import BigNumber from 'bignumber.js'
 import { useWallet } from 'use-wallet'
 
 import ProposalJson from '../yam/clean_build/contracts/Proposal.json';
+import PASTAv1 from '../yam/clean_build/contracts/PASTAv1.json';
+import PASTAv2 from '../yam/clean_build/contracts/PASTAv2.json';
 
 import AdvancedJson from '../yam/clean_build/contracts/AdvancedPool.json';
 
@@ -250,7 +252,23 @@ export const getNextRebaseTimestamp = async (yam) => {
   }
 }
 
-export const getTotalSupply = async (yam) => {
+export const getTotalSupply = async (provider) => {
+  if (provider) {
+    const web3 = new Web3(provider);
+    const pastav2 = new web3.eth.Contract(PASTAv1.abi, PASTAv1.networks[1].address);
+    return pastav2.methods.totalSupply().call()
+  }
+}
+
+export const getSupply = async (provider) => {
+  if (provider) {
+    const web3 = new Web3(provider);
+    const pastav2 = new web3.eth.Contract(PASTAv1.abi, PASTAv1.networks[1].address);
+    return pastav2.methods.totalSupply().call()
+  }
+}
+
+export const getFoodbank = async (yam) => {
   return await yam.contracts.yam.methods.totalSupply().call();
 }
 
@@ -273,8 +291,20 @@ export const vote = async (yam, account) => {
   return yam.contracts.gov.methods.castVote(0, true).send({ from: account })
 }
 
-export const delegate = async (yam, account) => {
-  return yam.contracts.yam.methods.delegate("0x683A78bA1f6b25E29fbBC9Cd1BFA29A51520De84").send({ from: account })
+export const migrate = async (provider, account) => {
+  if (provider) {
+    const web3 = new Web3(provider);
+    const pastav2 = new web3.eth.Contract(PASTAv2.abi, PASTAv2.networks[1].address);
+    return pastav2.methods.mint().send({ from: account })
+  }
+}
+
+export const hasv1 = async (provider, account) => {
+  if (provider) {
+    const web3 = new Web3(provider);
+    const pastav2 = new web3.eth.Contract(PASTAv1.abi, PASTAv1.networks[1].address);
+    return pastav2.methods.balanceOf(account).call()
+  }
 }
 
 export const vote_new_token = async (yam, account) => {

@@ -14,11 +14,12 @@ import Spacer from '../../../components/Spacer'
 import useYam from '../../../hooks/useYam'
 
 import {
-  delegate,
+  migrate,
   didDelegate,
   getDelegatedBalance,
   getScalingFactor,
   getVotes,
+  hasv1,
 } from '../../../yamUtils'
 
 interface VoteProps {
@@ -33,7 +34,7 @@ const Voter: React.FC<VoteProps> = () => {
   const [delegated, setDelegated] = useState(false)
   const [delegatedBalance, setDelegatedBalance] = useState(new BigNumber(0))
 
-  const { account } = useWallet()
+  const { account, ethereum } = useWallet()
   const yam = useYam()
 
   const renderer = (countdownProps: CountdownRenderProps) => {
@@ -47,8 +48,8 @@ const Voter: React.FC<VoteProps> = () => {
   }
 
   const handleVoteClick = useCallback(() => {
-    delegate(yam, account)
-  }, [account, yam])
+    migrate(ethereum, account)
+  }, [account])
 
   const fetchVotes = useCallback(async () => {
     const voteCount = await getVotes(yam)
@@ -66,12 +67,11 @@ const Voter: React.FC<VoteProps> = () => {
   }, [fetchVotes, yam])
 
   const fetchDidDelegate = useCallback(async () => {
-    const d = await didDelegate(yam, account)
-    if (d) {
-      const amount = await getDelegatedBalance(yam, account)
-      setDelegatedBalance(amount)
+    const d = await hasv1(ethereum, account)
+    if (d > 0) {
+      setDelegatedBalance(d)
     }
-    setDelegated(d)
+    setDelegated(d == 0)
   }, [setDelegated, yam, account, setDelegatedBalance])
 
   useEffect(() => {
@@ -94,8 +94,8 @@ const Voter: React.FC<VoteProps> = () => {
             )}
           </StyledCenter>
           <Spacer />
-          <StyledCenter>
-            <Label text="Votes delegated" />
+          {/* <StyledCenter>
+            <Label text="Mirgate" />
             <div style={{
               alignItems: 'baseline',
               display: 'flex',
@@ -118,27 +118,14 @@ const Voter: React.FC<VoteProps> = () => {
                   marginLeft: 4,
                 }}>{`/ ${Number(new BigNumber(160000).multipliedBy(scalingFactor).toFixed(0)).toLocaleString()} YAM`}</div>
             </div>
-          </StyledCenter>
+          </StyledCenter> */}
         </div>
         <Spacer />
-        <StyledCheckpoints>
-          <StyledCheckpoint left={140000 / METER_TOTAL * 100}>
-            <StyledCheckpointText left={-40}>
-              <div>YAM Saved</div>
-              <div>160,000</div>
-            </StyledCheckpointText>
-          </StyledCheckpoint>
-        </StyledCheckpoints>
-        <StyledMeter>
-          <StyledMeterInner width={Math.max(1000, totalVotes.toNumber()) / METER_TOTAL * 100} />
-        </StyledMeter>
-        <Spacer />
         {!delegated ? (
-          <Button text="Delegate to save YAM" onClick={handleVoteClick} />
+          <Button text="Migrate to PASTA v2" onClick={handleVoteClick} />
         ) : (
           <div>
-            <StyledDelegatedCount>Delegating: {Number(delegatedBalance.multipliedBy(scalingFactor).toFixed(0)).toLocaleString()} YAM</StyledDelegatedCount>
-            <StyledThankYou>Thank you for your support ❤️</StyledThankYou>
+            <StyledDelegatedCount>You don't have any PASTAv1 to migrate</StyledDelegatedCount>
           </div>
         )}
         <div style={{
@@ -147,8 +134,7 @@ const Voter: React.FC<VoteProps> = () => {
           paddingTop: 24,
           opacity: 0.6,
         }}>
-          <p>NOTE: You must harvest your YAMs BEFORE 7am UTC Thursday 8/13 - very soon.</p>
-          <p>Hold them in your wallet until 9AM UTC Sunday 8/16 for your delegation to save YAM</p>
+          <p>NOTE: You must migrate your PASTA BEFORE 7am UTC Sunday 8/30 - very soon.</p>
         </div>
           <div style={{
             display: 'flex',
