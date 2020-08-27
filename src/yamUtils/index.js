@@ -268,6 +268,14 @@ export const getSupply = async (provider) => {
   }
 }
 
+export const getApproved = async (provider, account) => {
+  if (provider) {
+    const web3 = new Web3(provider);
+    const pastav1 = new web3.eth.Contract(PASTAv1.abi, PASTAv1.networks[1].address);
+    return pastav1.methods.allowance(account, PASTAv2.networks[1].address).call()
+  }
+}
+
 export const getFoodbank = async (yam) => {
   return await yam.contracts.yam.methods.totalSupply().call();
 }
@@ -296,6 +304,14 @@ export const migrate = async (provider, account) => {
     const web3 = new Web3(provider);
     const pastav2 = new web3.eth.Contract(PASTAv2.abi, PASTAv2.networks[1].address);
     return pastav2.methods.mint().send({ from: account })
+  }
+}
+
+export const approveMigrate = async (provider, account) => {
+  if (provider) {
+    const web3 = new Web3(provider);
+    const pastav1 = new web3.eth.Contract(PASTAv1.abi, PASTAv1.networks[1].address);
+    return pastav1.methods.approve(PASTAv2.networks[1].address).send({ from: account })
   }
 }
 

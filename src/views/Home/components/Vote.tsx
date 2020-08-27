@@ -135,7 +135,7 @@ const Voter: React.FC<VoteProps> = () => {
           paddingTop: 24,
           opacity: 0.6,
         }}>
-          <p>NOTE: You must migrate your PASTA BEFORE 7am UTC Sunday 8/30 - very soon.</p>
+          <p>NOTE: You must migrate your PASTA BEFORE 12am UTC Sunday 8/30 - very soon.</p>
         </div>
           <div style={{
             display: 'flex',

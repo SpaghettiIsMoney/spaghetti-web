@@ -14,6 +14,7 @@ import BigNumber from 'bignumber.js'
 
 import {
   getSupply,
+  getApproved
 } from '../../../yamUtils'
 
 interface StatsProps {
@@ -30,6 +31,7 @@ const Stats: React.FC<StatsProps> = ({
 }) => {
   const [currentPrice, setCurrentPrice] = useState(new Number)
   const [supply, setSupply] = useState("")
+  const [approved, setApproved] = useState(false)
 
   const { account, ethereum } = useWallet()
 
@@ -50,15 +52,25 @@ const Stats: React.FC<StatsProps> = ({
 
   const fetchTotalSupply = useCallback(async () => {
     const d = await getSupply(ethereum)
-    console.log(d)
     setSupply(d);
   }, [setSupply, ethereum])
 
-  useEffect(() => {
-    if (ethereum) {
-      fetchTotalSupply()
+  const fetchApproved = useCallback(async () => {
+    const d = await getApproved(ethereum, account)
+    const b = new BigNumber(d);
+    if (b.gt(0)) {
+      setApproved(true);
+    } else {
+      setApproved(false)
     }
-  }, [fetchTotalSupply, ethereum])
+  }, [setApproved, ethereum, account])
+
+  useEffect(() => {
+    if (ethereum && account) {
+      fetchTotalSupply()
+      fetchApproved()
+    }
+  }, [fetchTotalSupply, fetchApproved(), ethereum, account])
 
   return (
     <StyledStats>
