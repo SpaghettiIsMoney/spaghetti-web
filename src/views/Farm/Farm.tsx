@@ -76,6 +76,9 @@ const StyledCountdown = styled.div`
         title={name}
       />
       <Countdown date={1598623200000} renderer={renderer} />
+      <Spacer />
+      <StyledLink href="https://uniswap.info/pair/0xe92346d9369fe03b735ed9bdeb6bdc2591b8227e">Uniswap Pool Info</StyledLink>
+      <Spacer />
       <StyledFarm>
         <StyledCardsWrapper>
           <StyledCardWrapper>
@@ -118,6 +121,16 @@ const StyledCardWrapper = styled.div`
   display: flex;
   flex: 1;
   flex-direction: column;
+`
+
+const StyledLink = styled.a`
+  color: ${props => props.theme.color.grey[400]};
+  padding-left: ${props => props.theme.spacing[3]}px;
+  padding-right: ${props => props.theme.spacing[3]}px;
+  text-decoration: none;
+  &:hover {
+    color: ${props => props.theme.color.grey[500]};
+  }
 `
 
 export default Farm
