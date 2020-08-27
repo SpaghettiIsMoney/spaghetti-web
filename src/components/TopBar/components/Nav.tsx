@@ -7,6 +7,7 @@ const Nav: React.FC = () => {
     <StyledNav>
       <StyledLink exact activeClassName="active" to="/">Home</StyledLink>
       <StyledLink exact activeClassName="active" to="/farms">Uniswap Pool</StyledLink>
+      <StyledLink2 href="https://infallible-easley-484cd4.netlify.app/">Old Website</StyledLink2>
       {/* <StyledLink exact activeClassName="active" to="/Vote">Vote</StyledLink> */}
     </StyledNav>
   )
@@ -28,6 +29,15 @@ const StyledLink = styled(NavLink)`
   }
   &.active {
     color: ${props => props.theme.color.primary.main};
+  }
+`
+const StyledLink2 = styled.a`
+  color: ${props => props.theme.color.grey[400]};
+  padding-left: ${props => props.theme.spacing[3]}px;
+  padding-right: ${props => props.theme.spacing[3]}px;
+  text-decoration: none;
+  &:hover {
+    color: ${props => props.theme.color.grey[500]};
   }
 `
 
