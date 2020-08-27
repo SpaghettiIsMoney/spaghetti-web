@@ -120,31 +120,6 @@ const Voter: React.FC<VoteProps> = () => {
             )}
           </StyledCenter>
           <Spacer />
-          {/* <StyledCenter>
-            <Label text="Mirgate" />
-            <div style={{
-              alignItems: 'baseline',
-              display: 'flex',
-            }}>
-              <StyledTitle>
-                <div>{Number(totalVotes.toFixed(0)).toLocaleString()}</div>
-              </StyledTitle>
-              <StyledDenominator>
-                <div>{`/ 160,000`}</div>
-              </StyledDenominator>
-            </div>
-            <div style={{
-              alignItems: 'baseline',
-              display: 'flex',
-            }}>
-              <div style={{ fontSize: 12 }}>{`${Number(totalVotes.multipliedBy(scalingFactor).toFixed(0)).toLocaleString()}`}</div>
-              <div style={{
-                  fontSize: 12,
-                  marginTop: 4,
-                  marginLeft: 4,
-                }}>{`/ ${Number(new BigNumber(160000).multipliedBy(scalingFactor).toFixed(0)).toLocaleString()} YAM`}</div>
-            </div>
-          </StyledCenter> */}
         </div>
         <Spacer />
         {!approved && !delegated ? (<Button text="Approve to migrate to PASTA v2" onClick={handleApproveClick} />) : (<></>)}
