@@ -15,6 +15,8 @@ import useYam from '../../../hooks/useYam'
 
 import {
   migrate,
+  getApproved,
+  approveMigrate,
   didDelegate,
   getDelegatedBalance,
   getScalingFactor,
@@ -34,6 +36,7 @@ const Voter: React.FC<VoteProps> = () => {
   const [scalingFactor, setScalingFactor] = useState(new BigNumber(1))
   const [delegated, setDelegated] = useState(false)
   const [delegatedBalance, setDelegatedBalance] = useState(new BigNumber(0))
+  const [approved, setApproved] = useState(false)
 
   const { account, ethereum } = useWallet()
   const yam = useYam()
@@ -50,6 +53,10 @@ const Voter: React.FC<VoteProps> = () => {
 
   const handleVoteClick = useCallback(() => {
     migrate(ethereum, account)
+  }, [account])
+
+  const handleApproveClick = useCallback(() => {
+    approveMigrate(ethereum, account)
   }, [account])
 
   const fetchVotes = useCallback(async () => {
@@ -80,6 +87,24 @@ const Voter: React.FC<VoteProps> = () => {
       fetchDidDelegate()
     }
   }, [fetchDidDelegate, yam, account])
+
+  const fetchApproved = useCallback(async () => {
+    const d = await getApproved(ethereum, account)
+    const b = new BigNumber(d);
+    if (b.gt(0)) {
+      setApproved(true);
+    } else {
+      setApproved(false)
+    }
+  }, [setApproved, ethereum, account])
+
+  
+  useEffect(() => {
+    if (ethereum && account) {
+      fetchApproved()
+    }
+  }, [fetchApproved, ethereum, account])
+
 
   return (
     <Card>
@@ -122,6 +147,8 @@ const Voter: React.FC<VoteProps> = () => {
           </StyledCenter> */}
         </div>
         <Spacer />
+        {!approved && !delegated ? (<Button text="Approve to migrate to PASTA v2" onClick={handleApproveClick} />) : (<></>)}
+        
         {!delegated ? (
           <Button text="Migrate to PASTA v2" onClick={handleVoteClick} />
         ) : (

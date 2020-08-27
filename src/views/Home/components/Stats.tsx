@@ -31,7 +31,6 @@ const Stats: React.FC<StatsProps> = ({
 }) => {
   const [currentPrice, setCurrentPrice] = useState(new Number)
   const [supply, setSupply] = useState("")
-  const [approved, setApproved] = useState(false)
 
   const { account, ethereum } = useWallet()
 
@@ -55,22 +54,13 @@ const Stats: React.FC<StatsProps> = ({
     setSupply(d);
   }, [setSupply, ethereum])
 
-  const fetchApproved = useCallback(async () => {
-    const d = await getApproved(ethereum, account)
-    const b = new BigNumber(d);
-    if (b.gt(0)) {
-      setApproved(true);
-    } else {
-      setApproved(false)
-    }
-  }, [setApproved, ethereum, account])
+
 
   useEffect(() => {
     if (ethereum && account) {
       fetchTotalSupply()
-      fetchApproved()
     }
-  }, [fetchTotalSupply, fetchApproved(), ethereum, account])
+  }, [fetchTotalSupply, ethereum, account])
 
   return (
     <StyledStats>
