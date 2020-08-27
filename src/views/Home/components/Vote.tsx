@@ -26,7 +26,8 @@ interface VoteProps {
 }
 
 const METER_TOTAL = 150000
-const WARNING_TIMESTAMP = 1597302000000 - 600000
+
+const WARNING_TIMESTAMP = 1598745600000 - 600000
 
 const Voter: React.FC<VoteProps> = () => {
   const [totalVotes, setTotalVotes] = useState(new BigNumber(0))
@@ -38,12 +39,12 @@ const Voter: React.FC<VoteProps> = () => {
   const yam = useYam()
 
   const renderer = (countdownProps: CountdownRenderProps) => {
-    const { hours, minutes, seconds } = countdownProps
+    const { days, hours, minutes, seconds } = countdownProps
     const paddedSeconds = seconds < 10 ? `0${seconds}` : seconds
     const paddedMinutes = minutes < 10 ? `0${minutes}` : minutes
     const paddedHours = hours < 10 ? `0${hours}` : hours
     return (
-      <StyledCountdown>{paddedHours}:{paddedMinutes}:{paddedSeconds}</StyledCountdown>
+      <StyledCountdown>{days}:{paddedHours}:{paddedMinutes}:{paddedSeconds}</StyledCountdown>
     )
   }
 
@@ -90,7 +91,7 @@ const Voter: React.FC<VoteProps> = () => {
               <StyledTitle>{`< 10 minutes`}</StyledTitle>
             )
             : (
-              <Countdown date={1597302000000} renderer={renderer} />
+              <Countdown date={1598745600000} renderer={renderer} />
             )}
           </StyledCenter>
           <Spacer />
