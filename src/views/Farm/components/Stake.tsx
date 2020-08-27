@@ -85,6 +85,8 @@ const Stake: React.FC<StakeProps> = ({
             <CardIcon>🌱</CardIcon>
             <Value value={getDisplayBalance(stakedBalance)} />
             <Label text={`${tokenName} Staked`} />
+            <Value value={getDisplayBalance(tokenBalance)} />
+            <Label text={`${tokenName} In Wallet`} />
           </StyledCardHeader>
           <StyledCardActions>
             {!allowance.toNumber() ? (
