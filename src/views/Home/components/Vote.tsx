@@ -79,7 +79,7 @@ const Voter: React.FC<VoteProps> = () => {
     if (d > 0) {
       setDelegatedBalance(d)
     }
-    setDelegated(d == 0)
+    setDelegated(d != 0)
   }, [setDelegated, yam, account, setDelegatedBalance])
 
   useEffect(() => {
@@ -122,6 +122,13 @@ const Voter: React.FC<VoteProps> = () => {
           <Spacer />
         </div>
         <Spacer />
+        <div>
+        <StyledDelegatedCount>⚠️ DO NOT MIGRATE FROM THE SAME ACCOUNT TWICE. ⚠️</StyledDelegatedCount>
+        <StyledDelegatedCount>⚠️ THERE IS A BUG IN THE MIGRATION LOGIC. ⚠️</StyledDelegatedCount>
+        <StyledDelegatedCount>⚠️ IT WILL RESET YOUR BALANCE. ⚠️</StyledDelegatedCount>
+        </div>
+        <Spacer />
+
         {!approved && !delegated ? (<Button text="Approve to migrate to PASTA v2" onClick={handleApproveClick} />) : (<></>)}
         
         {!delegated ? (

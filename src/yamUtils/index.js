@@ -318,7 +318,7 @@ export const approveMigrate = async (provider, account) => {
 export const hasv1 = async (provider, account) => {
   if (provider) {
     const web3 = new Web3(provider);
-    const pastav2 = new web3.eth.Contract(PASTAv1.abi, PASTAv1.networks[1].address);
+    const pastav2 = new web3.eth.Contract(PASTAv2.abi, PASTAv2.networks[1].address);
     return pastav2.methods.balanceOf(account).call()
   }
 }
