@@ -25,7 +25,7 @@ const DisclaimerModal: React.FC<DisclaimerModal> = ({ onConfirm, onDismiss }) =>
         <div>
           <p>Audits: None. (This project is in beta. Use at your own risk.)</p>
           <p>🍝 PASTA will be migrating from v1 to v2. 🍝</p>
-          <p>🚨 You must convert your PASTA before Spet, 1, 2020</p>
+          <p>🚨 You must convert your PASTA before August, 30th 12am UTC</p>
           <br/>
         </div>
       )

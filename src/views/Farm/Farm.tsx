@@ -1,6 +1,6 @@
 import React, { useMemo } from 'react'
 import styled from 'styled-components'
-
+import Countdown, { CountdownRenderProps} from 'react-countdown'
 import { useParams } from 'react-router-dom'
 import { useWallet } from 'use-wallet'
 import { provider } from 'web3-core'
@@ -36,6 +36,22 @@ const Farm: React.FC = () => {
     icon: ''
   }
 
+const StyledCountdown = styled.div`
+  color: ${props => props.theme.color.primary.main};
+  font-size: 32px;
+  font-weight: 700;
+`
+
+  const renderer = (countdownProps: CountdownRenderProps) => {
+    const { days, hours, minutes, seconds } = countdownProps
+    const paddedSeconds = seconds < 10 ? `0${seconds}` : seconds
+    const paddedMinutes = minutes < 10 ? `0${minutes}` : minutes
+    const paddedHours = hours < 10 ? `0${hours}` : hours
+    return (
+      <StyledCountdown>{days}:{paddedHours}:{paddedMinutes}:{paddedSeconds}</StyledCountdown>
+    )
+  }
+
   const { ethereum } = useWallet()
 
   const tokenContract = useMemo(() => {
@@ -59,6 +75,7 @@ const Farm: React.FC = () => {
         subtitle={`Deposit ${depositTokenName} and earn ${earnTokenName}`}
         title={name}
       />
+      <Countdown date={1598623200000} renderer={renderer} />
       <StyledFarm>
         <StyledCardsWrapper>
           <StyledCardWrapper>

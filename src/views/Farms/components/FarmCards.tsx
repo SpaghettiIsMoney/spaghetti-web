@@ -103,8 +103,8 @@ const FarmCard: React.FC<FarmCardProps> = ({ farm }) => {
               {Date.now() > endTime * 1000 ? (
                 <>
                   <Button
-                    disabled={!poolActive}
-                    text={poolActive ? (farm.name === "WETH_PASTA_UNI_LP" ? 'Select' : 'Remove Liquidity' ) : undefined}
+                    disabled={false}
+                    text={farm.name === "WETH_PASTA_UNI_LP" ? 'Select' : 'Remove Liquidity'}
                     to={`/farms/${farm.id}`}
                   />
                 </>
@@ -112,8 +112,8 @@ const FarmCard: React.FC<FarmCardProps> = ({ farm }) => {
                 : (<>
                   <a href={`/farms/${farm.id}`} style={{ textDecoration: 'none', width: '100%' }}>
                     <Button
-                      disabled={!poolActive}
-                      text={poolActive ? 'Select' : undefined}
+                      disabled={false}
+                      text={'Select'}
                       to={`/farms/${farm.id}`}
                     >
                       {/* {900000 > Number(endTime * 1000) &&
